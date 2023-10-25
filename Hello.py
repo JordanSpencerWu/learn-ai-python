@@ -1,4 +1,7 @@
+import openai
 import streamlit as st
+
+openai.api_key = st.secrets["OPENAI_API_KEY"]
 
 st.set_page_config(
     page_title="Hello",
@@ -8,6 +11,9 @@ st.set_page_config(
 st.write("# Welcome to Streamlit! 👋")
 
 st.sidebar.success("Select a demo above.")
+
+if openai.api_key == None or not openai.api_key.startswith("sk-"):
+    st.warning("Please set your OpenAI API Key in .streamlit/secrets.toml!", icon="⚠")
 
 st.markdown(
     """

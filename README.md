@@ -6,5 +6,5 @@ A demo project to learn OPENAI in python.
 
 - `asdf install`
 - `pip install -r requirements.txt`
-- `source .env`
+- Set `OPENAI_API_KEY` in `.streamlit/secrets.toml`
 - `streamlit run Hello.py`
