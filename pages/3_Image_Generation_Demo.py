@@ -14,8 +14,8 @@ with st.form("image_generator_form"):
     submitted = st.form_submit_button("Generate Image")
     if submitted:
         if prompt:
-            response = openai.Image.create(prompt=prompt, size=size, n=num_of_images)
-            for image in response["data"]:
+            images = openai.Image.create(prompt=prompt, size=size, n=num_of_images)
+            for image in images["data"]:
                 st.image(image["url"])
         else:
             st.error("Please enter text prompt", icon="🚨")

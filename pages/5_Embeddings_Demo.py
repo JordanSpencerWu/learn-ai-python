@@ -12,9 +12,8 @@ st.info(
 )
 
 
-def generate_response(prompt):
-    embeddings = openai.Embedding.create(model=openai_embeddings_model, input=prompt)
-    st.info(embeddings["data"][0]["embedding"])
+def generate_embeddings(prompt):
+    return openai.Embedding.create(model=openai_embeddings_model, input=prompt)
 
 
 prompt = """\
@@ -22,7 +21,8 @@ Food
 """
 
 with st.form("embeddings_form"):
-    text = st.text_area("Enter prompt:", prompt)
+    prompt = st.text_area("Enter prompt:", prompt)
     submitted = st.form_submit_button("Generate Embeddings")
     if submitted:
-        generate_response(text)
+        embeddings = generate_embeddings(prompt)
+        st.info(embeddings["data"][0]["embedding"])

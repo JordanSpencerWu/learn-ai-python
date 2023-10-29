@@ -12,8 +12,8 @@ st.info(
 )
 
 
-def generate_response(prompt):
-    completion = openai.ChatCompletion.create(
+def generate_chat_completion(prompt):
+    return openai.ChatCompletion.create(
         model=openai_model,
         messages=[
             {"role": "system", "content": "You are a helpful assistant."},
@@ -21,7 +21,6 @@ def generate_response(prompt):
         ],
         temperature=0.6,
     )
-    st.info(completion.choices[0].message["content"])
 
 
 zero_shot_prompt = """\
@@ -31,7 +30,8 @@ Sentiment:
 """
 
 with st.form("completion_form"):
-    text = st.text_area("Enter prompt:", zero_shot_prompt)
+    prompt = st.text_area("Enter prompt:", zero_shot_prompt)
     submitted = st.form_submit_button("Submit")
     if submitted:
-        generate_response(text)
+        chat_completion = generate_chat_completion(prompt)
+        st.info(chat_completion.choices[0].message["content"])
