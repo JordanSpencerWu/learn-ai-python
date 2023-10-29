@@ -13,7 +13,9 @@ st.write("# Welcome to Streamlit! 👋")
 st.sidebar.success("Select a demo above.")
 
 if openai.api_key == None or not openai.api_key.startswith("sk-"):
-    st.warning("Please set your OpenAI API Key in .streamlit/secrets.toml!", icon="⚠")
+    st.warning(
+        "Please set your OpenAI API Key in .streamlit/secrets.toml file!", icon="⚠"
+    )
 
 st.markdown(
     """

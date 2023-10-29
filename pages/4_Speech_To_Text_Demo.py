@@ -7,6 +7,8 @@ from pydub import AudioSegment
 
 openai.api_key = st.secrets["OPENAI_API_KEY"]
 
+st.set_page_config(page_title="Speech To Text Demo")
+
 OPENAI_ALLOWED_TYPES = [
     "flac",
     "m4a",

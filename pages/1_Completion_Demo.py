@@ -7,7 +7,7 @@ openai_model = st.secrets["OPENAI_MODEL"]
 st.set_page_config(page_title="Completion Demo")
 
 st.info(
-    f"Using {openai_model} model to change modify OPENAI_MODEL in .streamlit/secrets.toml",
+    f"Using {openai_model} model to change modify OPENAI_MODEL in .streamlit/secrets.toml file",
     icon="ℹ️",
 )
 
@@ -30,8 +30,8 @@ Text: I think the vacation is okay.
 Sentiment:
 """
 
-with st.form("my_form"):
-    text = st.text_area("Enter text:", zero_shot_prompt)
+with st.form("completion_form"):
+    text = st.text_area("Enter prompt:", zero_shot_prompt)
     submitted = st.form_submit_button("Submit")
     if submitted:
         generate_response(text)

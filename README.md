@@ -7,7 +7,7 @@ A demo project to learn OPENAI in python.
 - `brew install ffmpeg`
 - `asdf install`
 - `pip install -r requirements.txt`
-- Set `OPENAI_API_KEY` in `.streamlit/secrets.toml`
+- Set `OPENAI_API_KEY` in `.streamlit/secrets.toml` file
 - `streamlit run Hello.py`
 
 ## Automatically create `requirements.text`
