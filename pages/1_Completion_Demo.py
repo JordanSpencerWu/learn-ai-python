@@ -31,6 +31,7 @@ Sentiment:
 
 with st.form("completion_form"):
     prompt = st.text_area("Enter prompt:", zero_shot_prompt)
+
     submitted = st.form_submit_button("Submit")
     if submitted:
         chat_completion = generate_chat_completion(prompt)

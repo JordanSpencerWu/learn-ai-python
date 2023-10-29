@@ -22,6 +22,7 @@ Food
 
 with st.form("embeddings_form"):
     prompt = st.text_area("Enter prompt:", prompt)
+
     submitted = st.form_submit_button("Generate Embeddings")
     if submitted:
         embeddings = generate_embeddings(prompt)

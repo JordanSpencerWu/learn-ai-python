@@ -11,6 +11,7 @@ with st.form("image_generator_form"):
         "Select image size", options=("256x256", "512x512", "1024x1024"), index=0
     )
     num_of_images = st.selectbox("Select number of images", options=(1, 2, 3), index=0)
+
     submitted = st.form_submit_button("Generate Image")
     if submitted:
         if prompt:
