@@ -1,7 +1,7 @@
 import streamlit as st
-from sqlalchemy import create_engine, text
+from sqlalchemy import create_engine, text, Index
 from sqlalchemy.orm import sessionmaker
-from models import Base
+from models import Base, EmbeddingsDemo
 
 db_url = st.secrets["POSTGRES_DATABASE_URL"]
 engine = create_engine(db_url)
@@ -21,23 +21,21 @@ def create_pg_vector_extension():
         session.close()
 
 
-create_embeddings_demo_table_sql = text(
-    """
-    CREATE IF NOT EXISTS TABLE EmbeddingsDemo (
-        id SERIAL PRIMARY KEY,
-        prompt TEXT UNIQUE,
-        embedding_vector vector(1536)
-    );
-
-    CREATE UNIQUE INDEX unique_prompt_index ON EmbeddingsDemo (prompt);
-    """
-)
-
-
 def create_database_tables():
     session = Session()
     try:
         Base.metadata.create_all(engine)
+        embeddings_demo_column_embedding_vector_idx = Index(
+            "embeddings_demo_column_embedding_vector_idx",
+            EmbeddingsDemo.embedding_vector,
+            postgresql_using="ivfflat",
+            postgresql_with={"lists": 100},
+            postgresql_ops={"embedding": "vector_cosine_ops"},
+        )
+        embeddings_demo_column_embedding_vector_idx.create(
+            bind=engine,
+            checkfirst=True,
+        )
         print("Successfully created database tables")
     except Exception as e:
         print(f"Error creating the tables: {e}")
