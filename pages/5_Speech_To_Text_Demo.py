@@ -50,7 +50,7 @@ if audio_file is not None:
         first_one_minutes_of_song.export(output_audio_path, format=format)
         audio_data = open(output_audio_path, "rb")
         transacript = openai.Audio.translate("whisper-1", audio_data)
-        st.write(transacript["text"])
+        st.info(transacript["text"])
 
         # Clean up the exported audio file when it's no longer needed
         if os.path.exists(output_audio_path):

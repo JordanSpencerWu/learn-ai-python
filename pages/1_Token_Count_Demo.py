@@ -72,4 +72,4 @@ with st.form("token_count_form"):
     if submitted:
         prompt = prompt.strip()
         encoded_prompt = enc.encode(prompt)
-        st.write(f"{len(encoded_prompt)} tokens")
+        st.info(f"{len(encoded_prompt)} tokens")

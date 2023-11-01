@@ -5,7 +5,7 @@ openai.api_key = st.secrets["OPENAI_API_KEY"]
 
 st.set_page_config(page_title="Image Generation Demo")
 
-with st.form("image_generator_form"):
+with st.form("image_generation_form"):
     prompt = st.text_input("Enter text prompt for image generation")
     size = st.selectbox(
         "Select image size", options=("256x256", "512x512", "1024x1024"), index=0

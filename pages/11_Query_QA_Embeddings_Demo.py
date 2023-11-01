@@ -2,7 +2,7 @@ import openai
 import streamlit as st
 from sqlalchemy import create_engine, select
 from sqlalchemy.orm import sessionmaker
-from models import EmbeddingsDemo
+from models import QAEmbeddingsDemo
 
 openai.api_key = st.secrets["OPENAI_API_KEY"]
 openai_embeddings_model = st.secrets["OPENAI_EMBEDDINGS_MODEL"]
@@ -20,8 +20,8 @@ def generate_embeddings(prompt):
     return openai.Embedding.create(model=openai_embeddings_model, input=prompt)
 
 
-default_prompt = """\
-Fruit
+default_question = """\
+What's the color of the sky?
 """
 
 engine = create_engine(db_url)
@@ -29,23 +29,25 @@ Session = sessionmaker(bind=engine)
 session = Session()
 
 with st.form("query_embeddings_form"):
-    prompt = st.text_area("Enter query:", value=default_prompt, height=300)
-    nearest_neighbors = st.selectbox(
-        "Select number of nearest neighbors", ("1", "5", "10"), index=1
-    )
+    question = st.text_area("Enter question:", value=default_question, height=100)
 
     submitted = st.form_submit_button("Query")
     if submitted:
-        prompt = prompt.strip()
-        embeddings = generate_embeddings(prompt)
+        question = question.strip()
+        embeddings = generate_embeddings(question)
         embedding = embeddings["data"][0]["embedding"]
 
-        embedding_demos = session.scalars(
-            select(EmbeddingsDemo)
-            .filter(EmbeddingsDemo.embedding_vector.cosine_distance(embedding) < 0.15)
-            .order_by(EmbeddingsDemo.embedding_vector.cosine_distance(embedding))
-            .limit(nearest_neighbors)
+        qa_embedding_demos = session.scalars(
+            select(QAEmbeddingsDemo)
+            .filter(
+                QAEmbeddingsDemo.question_embedding_vector.cosine_distance(embedding)
+                < 0.1
+            )
+            .order_by(
+                QAEmbeddingsDemo.question_embedding_vector.cosine_distance(embedding)
+            )
+            .limit(1)
         )
 
-        for embedding_demo in embedding_demos:
-            st.info(embedding_demo.prompt)
+        for qa_embedding_demo in qa_embedding_demos:
+            st.info(qa_embedding_demo.answer)
