@@ -10,3 +10,11 @@ class EmbeddingsDemo(Base):
     id = Column(Integer, primary_key=True)
     prompt = Column(String, unique=True)
     embedding_vector = Column(Vector(1536))
+
+
+class QAEmbeddingsDemo(Base):
+    __tablename__ = "qa_embeddings_demo"
+    id = Column(Integer, primary_key=True)
+    question = Column(String, unique=True)
+    question_embedding_vector = Column(Vector(1536))
+    answer = Column(String)
