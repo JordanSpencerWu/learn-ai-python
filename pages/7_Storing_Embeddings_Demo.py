@@ -25,7 +25,7 @@ def generate_embeddings(prompt):
 
 
 prompt = """\
-Food
+Banana
 """
 
 try:
@@ -36,7 +36,9 @@ try:
         if submitted:
             embeddings = generate_embeddings(prompt)
             embedding = embeddings["data"][0]["embedding"]
-            new_record = EmbeddingsDemo(prompt=prompt, embedding_vector=embedding)
+            new_record = EmbeddingsDemo(
+                prompt=prompt.rstrip(), embedding_vector=embedding
+            )
             session.add(new_record)
             session.commit()
             st.success("Successfully saved embeddings")
