@@ -24,21 +24,20 @@ def generate_embeddings(prompt):
     return openai.Embedding.create(model=openai_embeddings_model, input=prompt)
 
 
-prompt = """\
+default_prompt = """\
 Banana
 """
 
 try:
     with st.form("embeddings_form"):
-        prompt = st.text_area("Enter prompt:", prompt)
+        prompt = st.text_area("Enter prompt:", value=default_prompt, height=300)
 
         submitted = st.form_submit_button("Generate Embeddings and Save")
         if submitted:
+            prompt = prompt.strip()
             embeddings = generate_embeddings(prompt)
             embedding = embeddings["data"][0]["embedding"]
-            new_record = EmbeddingsDemo(
-                prompt=prompt.rstrip(), embedding_vector=embedding
-            )
+            new_record = EmbeddingsDemo(prompt=prompt, embedding_vector=embedding)
             session.add(new_record)
             session.commit()
             st.success("Successfully saved embeddings")

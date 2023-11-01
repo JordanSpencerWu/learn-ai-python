@@ -23,16 +23,17 @@ def generate_chat_completion(prompt):
     )
 
 
-zero_shot_prompt = """\
+default_prompt = """\
 Classify the text into neutral, negative or positive. 
 Text: I think the vacation is okay.
 Sentiment:
 """
 
 with st.form("completion_form"):
-    prompt = st.text_area("Enter prompt:", zero_shot_prompt)
+    prompt = st.text_area("Enter prompt:", value=default_prompt, height=300)
 
     submitted = st.form_submit_button("Submit")
     if submitted:
+        prompt = prompt.strip()
         chat_completion = generate_chat_completion(prompt)
         st.info(chat_completion.choices[0].message["content"])

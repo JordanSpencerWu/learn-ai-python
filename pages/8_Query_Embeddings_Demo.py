@@ -20,7 +20,7 @@ def generate_embeddings(prompt):
     return openai.Embedding.create(model=openai_embeddings_model, input=prompt)
 
 
-prompt = """\
+default_prompt = """\
 Fruit
 """
 
@@ -29,13 +29,14 @@ Session = sessionmaker(bind=engine)
 session = Session()
 
 with st.form("embeddings_form"):
-    prompt = st.text_area("Enter query:", prompt)
+    prompt = st.text_area("Enter query:", value=default_prompt, height=300)
     nearest_neighbors = st.selectbox(
-        "Select number of nearest neighbors", ("1", "5", "10")
+        "Select number of nearest neighbors", ("1", "5", "10"), index=1
     )
 
     submitted = st.form_submit_button("Query")
     if submitted:
+        prompt = prompt.strip()
         embeddings = generate_embeddings(prompt)
         embedding = embeddings["data"][0]["embedding"]
 

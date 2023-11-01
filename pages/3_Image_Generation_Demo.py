@@ -14,6 +14,7 @@ with st.form("image_generator_form"):
 
     submitted = st.form_submit_button("Generate Image")
     if submitted:
+        prompt = prompt.strip()
         if prompt:
             images = openai.Image.create(prompt=prompt, size=size, n=num_of_images)
             for image in images["data"]:

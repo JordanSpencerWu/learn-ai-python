@@ -45,10 +45,11 @@ The less you give to me the more I want it
 """
 
 with st.form("moderations_form"):
-    prompt = st.text_area("Enter prompt:", prompt)
+    prompt = st.text_area("Enter prompt:", value=prompt, height=300)
 
     submitted = st.form_submit_button("Generate Moderations")
     if submitted:
+        prompt = prompt.strip()
         moderations = generate_moderations(prompt)
         result = moderations["results"][0]
         flagged = result["flagged"]

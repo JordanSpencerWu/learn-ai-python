@@ -3,3 +3,4 @@ pgvector==0.2.3
 pydub==0.25.1
 SQLAlchemy==2.0.22
 streamlit==1.27.2
+tiktoken==0.5.1
